@@ -34,7 +34,7 @@ export class UsersController {
   constructor(
     @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     private readonly service: UsersService
-  ) {}
+  ) { }
 
   @Roles('isSuperuser')
   @Permissions('add_user')
@@ -45,6 +45,7 @@ export class UsersController {
     description: 'The record has been successfully created.'
   })
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
+  @ApiResponse({ status: HttpStatus.CONFLICT, description: 'Email/username already exists.' })
   @Post()
   async create(@Body() dto: InCreateUserDto) {
     if (dto.isSuperuser && this.coreConfig.demo) {
@@ -71,6 +72,7 @@ export class UsersController {
     description: 'The record has been successfully updated.'
   })
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
+  @ApiResponse({ status: HttpStatus.CONFLICT, description: 'Email/username already exists.' })
   @ApiImplicitParam({ name: 'id', type: Number })
   @Put(':id')
   async update(@Param('id', new ParseIntPipe()) id, @Body() dto: InUserDto) {
