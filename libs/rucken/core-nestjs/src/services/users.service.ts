@@ -5,7 +5,7 @@ import { User } from '../entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private readonly repository: Repository<User>) {}
+  constructor(@InjectRepository(User) private readonly repository: Repository<User>) { }
 
   async assertUsernameAndEmail(options: { id?: number; email: string; username: string }) {
     if (options.email) {
@@ -141,7 +141,7 @@ export class UsersService {
         user: item
       };
     } catch (error) {
-      throw new NotFoundException(`User with email "${options.email}" not founded`);
+      throw new NotFoundException(`User with email "${options.email}" not found`);
     }
   }
 
@@ -157,7 +157,7 @@ export class UsersService {
         user: item
       };
     } catch (error) {
-      throw new NotFoundException(`User with username "${options.username}" not founded`);
+      throw new NotFoundException(`User with username "${options.username}" not found`);
     }
   }
 }
